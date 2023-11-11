@@ -14,8 +14,7 @@ export function GoogleButton(props: {onClick: ()=> void}){
                     <path fill="none" d="M0 0h48v48H0z"></path>
                 </svg>
                 </div>
-                <span className="gsi-material-button-contents">Sign in with Google</span>
-                <span>Sign in with Google</span>
+                <span className="gsi-material-button-contents">Continue with Google</span>
             </div>
         </button>
     )
