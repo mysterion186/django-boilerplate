@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react'
 import './App.css'
-import { GoogleOAuthProvider, googleLogout, useGoogleLogin } from '@react-oauth/google';
+import { googleLogout, useGoogleLogin } from '@react-oauth/google';
 import axios from 'axios';
 
 interface GoogleLoginResponse {
@@ -12,8 +12,11 @@ function App() {
   const [user, setUser] = useState<GoogleLoginResponse | null>(null);
   const [profile, setProfile] = useState<any | null>(null); // You can specify a more specific type for 'profile'
 
-  const login = useGoogleLogin({
-    onSuccess: (codeResponse: GoogleLoginResponse) => {setUser(codeResponse); console.log(user)},
+  const  login = useGoogleLogin({
+    onSuccess: (codeResponse: GoogleLoginResponse) => {setUser(codeResponse); console.log(
+      "user ",user?.access_token,
+      "res ", codeResponse
+    )},
     onError: (error) => console.log('Login Failed:', error),
   });
 
@@ -56,11 +59,10 @@ function App() {
             <br />
             <br />
             <button onClick={logOut}>Log out</button>
+            <button onClick={() => {console.log(user)}}></button>
           </div>
         ) : (
-          <GoogleOAuthProvider clientId="727715298451-s1i3b7558idrklc6l97762f99dar7fch.apps.googleusercontent.com"> 
-            <button onClick={() => login()}>Sign in with Google 🚀 </button>
-          </GoogleOAuthProvider>
+          <button onClick={() => login()}>Sign in with Google 🚀 </button>
         )}
       </div>
   );
