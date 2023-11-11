@@ -28,6 +28,10 @@ DEBUG = True
 
 ALLOWED_HOSTS = []
 
+CORS_ALLOWED_ORIGINS = [
+    "http://localhost:3000",  # Add your frontend URL(s) here
+    # Add more allowed origins if needed
+]
 
 # Application definition
 
@@ -41,10 +45,12 @@ INSTALLED_APPS = [
     'accounts',
     'rest_framework',
     'social_django',
-    'rest_framework_simplejwt'
+    'rest_framework_simplejwt',
+    'corsheaders',
 ]
 
 MIDDLEWARE = [
+    'corsheaders.middleware.CorsMiddleware',
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
