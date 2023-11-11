@@ -1,23 +1,18 @@
 import { useGoogleLogin } from "@react-oauth/google";
 import AuthApi from "../../services/AuthApi";
 import { ProviderCredentials, RawProviderCredential } from "../../types/api.types";
-
-interface GoogleLoginResponse {
-    access_token: string;
-}
+import { redirectUser } from "../../utils/AuthUtils";
 
 function Login() {
 
     const LoginFromGoogle = useGoogleLogin({
-        onSuccess: (codeResponse: RawProviderCredential) => {
+        onSuccess: async (codeResponse: RawProviderCredential) => {
             const formattedCredentials: ProviderCredentials = {
                 access_token: codeResponse.access_token,
                 provider: "google-oauth2"
             };
-            console.log("raw response ", codeResponse, "formatted response ", formattedCredentials);
-            const res = AuthApi.getJWTToken(formattedCredentials);
-            console.log("There is the result ", res);
-            console.log("Based on the status, I need to redirect the user now to the correct page");
+            const res = await AuthApi.getJWTToken(formattedCredentials);
+            redirectUser(res);
             
         },
         onError: (error) => {
