@@ -12,7 +12,7 @@ interface BasicCredentials {
 
 // get the raw response of the Provider
 export interface RawProviderCredential {
-    accessToken: string;
+    access_token: string;
 }
 
 export type type_headers = {

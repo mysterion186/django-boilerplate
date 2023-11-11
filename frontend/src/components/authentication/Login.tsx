@@ -1,6 +1,6 @@
 import { useGoogleLogin } from "@react-oauth/google";
 import AuthApi from "../../services/AuthApi";
-import { ProviderCredentials } from "../../types/api.types";
+import { ProviderCredentials, RawProviderCredential } from "../../types/api.types";
 
 interface GoogleLoginResponse {
     access_token: string;
@@ -9,9 +9,9 @@ interface GoogleLoginResponse {
 function Login() {
 
     const LoginFromGoogle = useGoogleLogin({
-        onSuccess: (codeResponse: GoogleLoginResponse) => {
+        onSuccess: (codeResponse: RawProviderCredential) => {
             const formattedCredentials: ProviderCredentials = {
-                accessToken: codeResponse.access_token,
+                access_token: codeResponse.access_token,
                 provider: "google-oauth2"
             };
             console.log("raw response ", codeResponse, "formatted response ", formattedCredentials);

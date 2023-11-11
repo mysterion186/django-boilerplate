@@ -35,8 +35,9 @@ export default {
     // call our backend for getting the JWT Token
     getJWTToken(credentials: Credentials){
         var url: string = ""
-        if ("accessToken" in credentials){
-            url = "/provider/endpoint"
+        if ("access_token" in credentials){
+            
+            url = `/auth/api/register-by-access-token/social/${credentials.provider}/`
         }
         else {
             url = "not/implemented/yet"
