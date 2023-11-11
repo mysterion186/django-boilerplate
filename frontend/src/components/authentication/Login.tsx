@@ -1,4 +1,3 @@
-// import { LoginFromGoogle } from "../../services/SocialAuth";
 import { useGoogleLogin } from "@react-oauth/google";
 import AuthApi from "../../services/AuthApi";
 import { ProviderCredentials } from "../../types/api.types";
@@ -17,7 +16,9 @@ function Login() {
             };
             console.log("raw response ", codeResponse, "formatted response ", formattedCredentials);
             const res = AuthApi.getJWTToken(formattedCredentials);
-            console.log(res);
+            console.log("There is the result ", res);
+            console.log("Based on the status, I need to redirect the user now to the correct page");
+            
         },
         onError: (error) => {
             console.log("Login Failed ", error);
