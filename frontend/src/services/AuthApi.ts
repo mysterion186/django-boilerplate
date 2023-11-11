@@ -33,7 +33,7 @@ export default {
     },
 
     // call our backend for getting the JWT Token
-    getJWTToken(credentials: Credentials){
+    async getJWTToken(credentials: Credentials){
         var url: string = ""
         if ("access_token" in credentials){
             
@@ -42,6 +42,6 @@ export default {
         else {
             url = "not/implemented/yet"
         }
-        return this.call("post", url, credentials, null);
+        return await this.call("post", url, credentials, null);
     },
 }
