@@ -16,5 +16,6 @@ urlpatterns = [
     ),
     path('authentication-test/', views.authentication_test),
     path('token', TokenObtainPairView.as_view(), name="token_obtain_pair"),
-    path('token/refresh', TokenRefreshView.as_view(), name='token_refresh')
+    path('token/refresh', TokenRefreshView.as_view(), name='token_refresh'),
+    path('create-user', view=views.CreateBasicUserView.as_view(), name='create_basic_user'),
 ]
