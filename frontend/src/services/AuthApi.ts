@@ -37,7 +37,7 @@ export default {
         var url: string = ""
         if ("access_token" in credentials){
             
-            url = `/auth/api/register-by-access-token/social/${credentials.provider}/`
+            url = `/auth/register-by-access-token/social/${credentials.provider}/`
         }
         else {
             url = "not/implemented/yet"
