@@ -2,6 +2,7 @@ import { useGoogleLogin } from "@react-oauth/google";
 import AuthApi from "../../services/AuthApi";
 import { ProviderCredentials, RawProviderCredential } from "../../types/api.types";
 import { redirectUser } from "../../utils/AuthUtils";
+import { GoogleButton } from "./SocialButton";
 
 function Login() {
 
@@ -27,7 +28,7 @@ function Login() {
                 <input type="password" placeholder="Password"/>
             </form>
             <button>Login</button>
-            <button onClick={() => {LoginFromGoogle()}}>Continue with Google</button>
+            <GoogleButton onClick={LoginFromGoogle}/>
         </>
     )
 }
