@@ -40,7 +40,7 @@ export default {
             url = `/auth/register-by-access-token/social/${credentials.provider}/`
         }
         else {
-            url = "not/implemented/yet"
+            url = "auth/token"
         }
         return await this.call("post", url, credentials, null);
     },
