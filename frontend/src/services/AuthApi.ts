@@ -4,7 +4,7 @@
  * This may includes some useful methods like getting the JWT Token or creating/loging the user...
  */
 import axios from "axios";
-import { type_headers, Credentials } from "../types/api.types";
+import { type_headers, Credentials, UserRegistration } from "../types/api.types";
 
 const instance = axios.create({
     baseURL: import.meta.env.VITE_BACKEND_URL
@@ -44,4 +44,9 @@ export default {
         }
         return await this.call("post", url, credentials, null);
     },
+
+    // register a basic user
+    async registerBasicUser(data:UserRegistration){
+        return await this.call("post","/auth/create-user", data)
+    }
 }

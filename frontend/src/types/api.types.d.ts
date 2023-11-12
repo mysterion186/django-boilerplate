@@ -10,6 +10,14 @@ interface BasicCredentials {
     password: string;
 }
 
+// type for handling user's registration
+export type UserRegistration= {
+    email: string,
+    password: string, 
+    password1: string,
+    biography: string
+}
+
 // get the raw response of the Provider
 export interface RawProviderCredential {
     access_token: string;

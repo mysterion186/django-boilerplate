@@ -1,6 +1,7 @@
 import { createBrowserRouter } from "react-router-dom";
 import App from './App.tsx'
 import Login from "./components/authentication/Login.tsx";
+import Registration from "./components/authentication/Registration.tsx";
 
 const router = createBrowserRouter([
     {
@@ -8,8 +9,12 @@ const router = createBrowserRouter([
         element: <App />
     },
     {
-        path: "inscription",
+        path: "login",
         element: <Login />
+    },
+    {
+        path: "register",
+        element: <Registration />
     }
 ])
 
