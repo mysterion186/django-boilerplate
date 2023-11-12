@@ -1,5 +1,6 @@
 import { useState, FormEvent, ChangeEvent } from "react";
 import { useGoogleLogin } from "@react-oauth/google";
+import { useNavigate } from "react-router-dom";
 
 import AuthApi from "../../services/AuthApi";
 import { BasicCredentials, ProviderCredentials, RawProviderCredential } from "../../types/api.types";
@@ -10,6 +11,7 @@ function Login() {
         email: '',
         password: '',
     });
+    const navigate = useNavigate();
 
     const LoginFromGoogle = useGoogleLogin({
         onSuccess: async (codeResponse: RawProviderCredential) => {
@@ -18,6 +20,12 @@ function Login() {
                 provider: "google-oauth2"
             };
             const res = await AuthApi.getJWTToken(formattedCredentials);
+            if (res.status === 200){
+                navigate("/");
+            }
+            else{
+                console.log("An error occured ", res);
+            }
             
         },
         onError: (error) => {
@@ -28,6 +36,12 @@ function Login() {
     const handleSubmit = async (e: FormEvent) => {
         e.preventDefault();
         const res = await AuthApi.getJWTToken(formData);
+        if (res.status === 200){
+            navigate("/");
+        }
+        else{
+            console.log("An error occured ", res);
+        }
     };
 
     const handleInputchange = (e: ChangeEvent<HTMLInputElement>) => {

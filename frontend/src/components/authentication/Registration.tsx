@@ -1,7 +1,8 @@
 import { useState, FormEvent, ChangeEvent } from "react";
+import { useNavigate } from "react-router-dom";
+
 import AuthApi from "../../services/AuthApi";
 import { UserRegistration } from "../../types/api.types";
-import { redirectUser } from "../../utils/AuthUtils";
 
 function Registration() {
     const [formData, setFormData] = useState<UserRegistration>({
@@ -9,12 +10,18 @@ function Registration() {
         password: "",
         password1: "",
         biography: "",
-    })
+    });
+    const navigate = useNavigate();
 
     const handleSubmit = async (e:FormEvent) => {
         e.preventDefault();
         const res = await AuthApi.registerBasicUser(formData);
-        redirectUser(res);
+        if (res.status === 200){
+            navigate("/");
+        }
+        else{
+            console.log("An error occured ", res);
+        }
     };
 
     const handleInputchange = (e: ChangeEvent<HTMLInputElement>) => {
