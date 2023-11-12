@@ -2,13 +2,12 @@ import { useState, FormEvent, ChangeEvent } from "react";
 import { useGoogleLogin } from "@react-oauth/google";
 
 import AuthApi from "../../services/AuthApi";
-import { ProviderCredentials, RawProviderCredential } from "../../types/api.types";
-import { redirectUser } from "../../utils/AuthUtils";
+import { BasicCredentials, ProviderCredentials, RawProviderCredential } from "../../types/api.types";
 import { GoogleButton } from "./SocialButton";
 
 function Login() {
-    const [formData, setFormData] = useState<{username:string, password: string}>({
-        username: '',
+    const [formData, setFormData] = useState<BasicCredentials>({
+        email: '',
         password: '',
     });
 
@@ -19,7 +18,6 @@ function Login() {
                 provider: "google-oauth2"
             };
             const res = await AuthApi.getJWTToken(formattedCredentials);
-            redirectUser(res);
             
         },
         onError: (error) => {
@@ -30,7 +28,6 @@ function Login() {
     const handleSubmit = async (e: FormEvent) => {
         e.preventDefault();
         const res = await AuthApi.getJWTToken(formData);
-        redirectUser(res);
     };
 
     const handleInputchange = (e: ChangeEvent<HTMLInputElement>) => {
@@ -44,15 +41,15 @@ function Login() {
         <>
             <form onSubmit={handleSubmit}>
                 <div>
-                    <label htmlFor="username">Username:</label>
+                    <label htmlFor="email">email:</label>
                     <input
                     type="text"
-                    id="username"
-                    name="username"
-                    value={formData.username}
+                    id="email"
+                    name="email"
+                    value={formData.email}
                     onChange={handleInputchange}
                     required
-                    placeholder="username"
+                    placeholder="email"
                     />
                 </div>
                 <div>
