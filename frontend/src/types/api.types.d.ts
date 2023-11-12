@@ -6,7 +6,7 @@ interface ProviderCredentials extends RawProviderCredential{
 
 // Interface for "basic" user
 interface BasicCredentials {
-    username: string;
+    email: string;
     password: string;
 }
 
