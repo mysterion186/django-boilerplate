@@ -48,3 +48,45 @@ class UserSerializer(serializers.ModelSerializer):
         """Default meta class."""
         model = models.MyUser
         fields = ["email", "biography"]
+
+class UpdateBasicUserPasswordSerializer(serializers.ModelSerializer):
+    """Serializer for updating basic user's password."""
+    old_password = serializers.CharField(write_only=True)
+    password = serializers.CharField(write_only=True)
+    password1 = serializers.CharField(write_only=True)
+    class Meta:
+        """Default meta class."""
+        model = models.MyUser
+        fields = ["old_password", "password", "password1"]
+
+    def validate(self, attrs):
+        """Validate data for processing (correct old password, new passwords matching)."""
+        if "old_password" not in attrs:
+            raise serializers.ValidationError(
+                {"error": "`old_password` field is required !"}
+            )
+
+        try:
+            if attrs["password"] != attrs["password1"]:
+                raise serializers.ValidationError(
+                    {"error": "passwords must match !"}
+                )
+        except KeyError as exc:
+            raise serializers.ValidationError(
+                {"error": "Both `password` and `password1` are required"}
+            ) from exc
+        return attrs
+
+    def validate_old_password(self, value):
+        """Validate the given old password."""
+        user = self.context["request"].user
+        if not user.check_password(value):
+            raise serializers.ValidationError(
+                {"error": "Old password is not correct"}
+            )
+        return value
+
+    def update(self, instance, validated_data):
+        instance.set_password(validated_data["password"])
+        instance.save()
+        return {'success': 'password changed'}
