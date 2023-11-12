@@ -4,9 +4,12 @@ either the default user of the 3rd party authenticated user.
 from rest_framework_simplejwt.tokens import AccessToken
 from rest_framework import status
 from rest_framework.decorators import api_view, permission_classes
-from rest_framework.permissions import AllowAny
+from rest_framework.permissions import AllowAny, IsAuthenticated
 from rest_framework.response import Response
-from rest_framework.generics import CreateAPIView
+from rest_framework.generics import (
+    CreateAPIView,
+    UpdateAPIView,
+)
 from social_django.utils import psa
 
 from . import serializers
@@ -55,3 +58,22 @@ class CreateBasicUserView(CreateAPIView):
     """View for creating basic user."""
     serializer_class = serializers.CreateBasicUserSerializer
     permission_classes = [AllowAny]
+
+class UpdateBasicUserPasswordView(UpdateAPIView):
+    """View for allowing the basic user to update it's password."""
+    serializer_class = serializers.UpdateBasicUserPasswordSerializer
+    permission_classes = [IsAuthenticated]
+
+    def get_object(self):
+        return self.request.user
+
+    def update(self, request, *args, **kwargs):
+        """Override the update method in order to include a custom success message."""
+        serializer = self.get_serializer(instance=request.user, data=request.data)
+        serializer.is_valid(raise_exception=True)
+        self.perform_update(serializer)
+
+        response_data = {
+            "success": "password changed successfully."
+        }
+        return Response(response_data, status=status.HTTP_200_OK)
