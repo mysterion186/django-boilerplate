@@ -1,6 +1,7 @@
 """Views relatated to user's authentication 
 either the default user of the 3rd party authenticated user.
 """
+from django.utils.http import urlsafe_base64_decode,urlsafe_base64_encode
 from rest_framework_simplejwt.tokens import AccessToken
 from rest_framework import status
 from rest_framework.decorators import api_view, permission_classes
@@ -10,9 +11,11 @@ from rest_framework.generics import (
     CreateAPIView,
     UpdateAPIView,
 )
+from rest_framework.views import APIView
 from social_django.utils import psa
 
-from . import serializers
+from . import serializers, models
+from .token import password_reset_token
 
 @api_view(['POST'])
 @permission_classes([AllowAny])
@@ -77,3 +80,32 @@ class UpdateBasicUserPasswordView(UpdateAPIView):
             "success": "password changed successfully."
         }
         return Response(response_data, status=status.HTTP_200_OK)
+
+class SendResetOneTimeLinkView(APIView):
+    """Generate a one time link for the user.
+    We'll use it for confirm his will to reset it's password."""
+    permission_classes = [AllowAny]
+
+    def post(self, request):
+        """User send his email. We'll send the link via email."""
+        try:
+            user = models.MyUser.objects.get(email=request.data["email"])
+            token = password_reset_token.make_token(user)
+            uidb64 = urlsafe_base64_encode(str(user.email).encode('utf-8'))
+            return Response(
+                {
+                    "status":"success",
+                    "token": token,
+                    "uidb64": uidb64
+                },
+                status=status.HTTP_201_CREATED
+            )
+        except KeyError:
+            return Response({"error": "`email` is required"}, status=status.HTTP_400_BAD_REQUEST)
+        except models.MyUser.DoesNotExist:
+            return Response(
+                {
+                    "error": "There is no user with this email"
+                },
+                status=status.HTTP_404_NOT_FOUND
+            )

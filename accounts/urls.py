@@ -28,4 +28,9 @@ urlpatterns = [
         view=views.UpdateBasicUserPasswordView.as_view(),
         name='update-password'
     ),
+    path(
+        'password-reset-link',
+        view=views.SendResetOneTimeLinkView.as_view(),
+        name="password_reset_link"
+    ),
 ]
