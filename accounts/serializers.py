@@ -90,3 +90,28 @@ class UpdateBasicUserPasswordSerializer(serializers.ModelSerializer):
         instance.set_password(validated_data["password"])
         instance.save()
         return {'success': 'password changed'}
+
+class ResetBasicUserPasswordSerializer(serializers.ModelSerializer):
+    """Serializer for resetting the basic user's password."""
+    password = serializers.CharField(write_only=True)
+    password1 = serializers.CharField(write_only=True)
+    class Meta:
+        """Default meta class."""
+        model = models.MyUser
+        fields = ["password", "password1"]
+
+    def validate(self, attrs):
+        """Validate data regarding the user's password resetting."""
+        password = attrs.get("password")
+        password1 = attrs.pop("password1")
+
+        if password != password1:
+            raise serializers.ValidationError(
+                {"password": "password must match !"}
+            )
+        return attrs
+
+    def update(self, instance, validated_data):
+        instance.set_password(validated_data["password"])
+        instance.save()
+        return {'success': 'password changed'}
