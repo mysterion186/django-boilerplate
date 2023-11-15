@@ -33,4 +33,5 @@ urlpatterns = [
         view=views.SendResetOneTimeLinkView.as_view(),
         name="password_reset_link"
     ),
+    path('reset-password', view=views.ResetPasswordView.as_view(), name="reset_password"),
 ]

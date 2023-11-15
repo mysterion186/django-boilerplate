@@ -109,3 +109,53 @@ class SendResetOneTimeLinkView(APIView):
                 },
                 status=status.HTTP_404_NOT_FOUND
             )
+
+class ResetPasswordView(APIView):
+    """Actual view for resetting the password.
+    We assume that the user got the uidb64 and the token from the previous view.
+    """
+    permission_classes = [AllowAny]
+
+    def post(self, request):
+        """Handle the token and uidb64 for resetting password."""
+        uidb64 = request.data.get("uidb64", None)
+        token = request.data.get("token", None)
+
+        if token is None or uidb64 is None:
+            return Response(
+                {
+                    "error": "`token` and `uidb64` are required field"
+                },
+                status=status.HTTP_400_BAD_REQUEST
+            )
+        try :
+            uid = urlsafe_base64_decode(uidb64).decode('ascii')
+            user = models.MyUser.objects.get(email=uid)
+        except (TypeError, ValueError, OverflowError, models.MyUser.DoesNotExist):
+            user = None
+            return Response(
+                {
+                    "error": "The user is not recognized"
+                },
+                status=status.HTTP_404_NOT_FOUND
+            )
+        if user is not None and password_reset_token.check_token(user, token):
+            serializer = serializers.ResetBasicUserPasswordSerializer(
+                user,
+                data=request.data,
+                partial=True,
+                context={"request": request}
+            )
+            if serializer.is_valid():
+                serializer.update(user, request.data)
+                # case everything goes smoothly
+                return Response(
+                    {
+                        "detail": "Password successfully reset"
+                    },
+                    status=status.HTTP_200_OK
+                )
+            # case the serializer is not valid
+            return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+        # case the token is not recognized
+        return Response({"error": "The link is not recognized"}, status=status.HTTP_400_BAD_REQUEST)
