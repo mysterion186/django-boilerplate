@@ -23,6 +23,12 @@ export interface RawProviderCredential {
     access_token: string;
 }
 
+export type UserPasswordUpdate = {
+    old_password: string,
+    password: string, 
+    password1: string
+}
+
 export type UserInformation = {
     email: string,
     biography: string | null
