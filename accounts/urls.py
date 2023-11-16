@@ -15,7 +15,6 @@ urlpatterns = [
         'register-by-access-token/' + r'social/(?P<backend>[^/]+)/$',
         views.register_by_access_token
     ),
-    path('authentication-test/', views.authentication_test),
 
     # all users related endpoint
     path('token', TokenObtainPairView.as_view(), name="token_obtain_pair"),
@@ -34,4 +33,5 @@ urlpatterns = [
         name="password_reset_link"
     ),
     path('reset-password', view=views.ResetPasswordView.as_view(), name="reset_password"),
+    path('user', view=views.DisplayUserInformationView.as_view(), name="delete_me_please")
 ]

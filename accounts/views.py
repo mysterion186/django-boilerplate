@@ -10,6 +10,7 @@ from rest_framework.response import Response
 from rest_framework.generics import (
     CreateAPIView,
     UpdateAPIView,
+    RetrieveAPIView,
 )
 from rest_framework.views import APIView
 from social_django.utils import psa
@@ -56,6 +57,17 @@ def authentication_test(request):
         },
         status=status.HTTP_200_OK,
     )
+
+class DisplayUserInformationView(RetrieveAPIView):
+    """This class display information on the user. 
+    This is a temporary view just to check that the user is authenticated.
+    (for test purposes only)
+    """
+    serializer_class = serializers.UserSerializer
+    permission_classes = [IsAuthenticated]
+
+    def get_object(self):
+        return self.request.user
 
 class CreateBasicUserView(CreateAPIView):
     """View for creating basic user."""
