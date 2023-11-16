@@ -17,7 +17,7 @@ function Registration() {
         e.preventDefault();
         const res = await AuthApi.registerBasicUser(formData);
         if (res.status === 201){
-            navigate("/");
+            navigate("/user");
         }
         else{
             console.log("An error occured ", res);
