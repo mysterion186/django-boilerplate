@@ -23,6 +23,10 @@ export interface RawProviderCredential {
     access_token: string;
 }
 
+export type UserInformation = {
+    email: string,
+    biography: string | null
+}
 export type type_headers = {
     'Content-type' : string;
     authorization? : string;
