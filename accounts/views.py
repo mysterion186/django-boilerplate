@@ -33,7 +33,7 @@ def register_by_access_token(request, backend):
         jwt_token = AccessToken.for_user(user=user)
         return Response(
             {
-                'jwt_token': str(jwt_token)
+                'access': str(jwt_token)
             },
             status=status.HTTP_200_OK,
             )
