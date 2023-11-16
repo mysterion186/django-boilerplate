@@ -16,7 +16,7 @@ function Registration() {
     const handleSubmit = async (e:FormEvent) => {
         e.preventDefault();
         const res = await AuthApi.registerBasicUser(formData);
-        if (res.status === 200){
+        if (res.status === 201){
             navigate("/");
         }
         else{
