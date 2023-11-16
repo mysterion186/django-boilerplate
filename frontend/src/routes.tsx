@@ -3,6 +3,7 @@ import App from './App.tsx'
 import Login from "./components/authentication/Login.tsx";
 import Registration from "./components/authentication/Registration.tsx";
 import User from "./components/authentication/User.tsx";
+import UpdatePassword from "./components/authentication/UpdatePassword.tsx";
 
 const router = createBrowserRouter([
     {
@@ -20,6 +21,10 @@ const router = createBrowserRouter([
     {
         path: "user",
         element: <User />
+    },
+    {
+        path: "update-password",
+        element: <UpdatePassword />
     }
 ])
 
