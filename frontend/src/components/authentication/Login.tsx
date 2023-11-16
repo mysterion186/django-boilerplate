@@ -3,6 +3,7 @@ import { useGoogleLogin } from "@react-oauth/google";
 import { useNavigate } from "react-router-dom";
 
 import AuthApi from "../../services/AuthApi";
+import AuthStorage from "../../services/AuthStorage";
 import { BasicCredentials, ProviderCredentials, RawProviderCredential } from "../../types/api.types";
 import { GoogleButton } from "./SocialButton";
 
@@ -21,7 +22,8 @@ function Login() {
             };
             const res = await AuthApi.getJWTToken(formattedCredentials);
             if (res.status === 200){
-                navigate("/");
+                AuthStorage.saveJWTToken(res.data.access);
+                navigate("/user");
             }
             else{
                 console.log("An error occured ", res);
@@ -37,7 +39,9 @@ function Login() {
         e.preventDefault();
         const res = await AuthApi.getJWTToken(formData);
         if (res.status === 200){
-            navigate("/");
+            console.log(res.data.access)
+            AuthStorage.saveJWTToken(res.data.access);
+            navigate("/user");
         }
         else{
             console.log("An error occured ", res);
