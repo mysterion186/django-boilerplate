@@ -13,7 +13,7 @@ const instance = axios.create({
 export default {
 
     async call(method: string, ressources: string, data:object | null = null, token: string | null = null ){
-        var headers: type_headers = {
+        const headers: type_headers = {
             "Content-type": "application/json"
         };
 
@@ -34,7 +34,7 @@ export default {
 
     // call our backend for getting the JWT Token
     async getJWTToken(credentials: Credentials){
-        var url: string = ""
+        let url: string = ""
         if ("access_token" in credentials){
             
             url = `/auth/register-by-access-token/social/${credentials.provider}/`
@@ -47,6 +47,11 @@ export default {
 
     // register a basic user
     async registerBasicUser(data:UserRegistration){
-        return await this.call("post","/auth/create-user", data)
+        return await this.call("post","/auth/create-user", data);
+    },
+
+    // get User's information
+    async getUserInformation(token: string){
+        return await this.call("get", "/auth/user", null, token);
     }
 }
