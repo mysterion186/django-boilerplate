@@ -4,7 +4,7 @@
  * This may includes some useful methods like getting the JWT Token or creating/loging the user...
  */
 import axios from "axios";
-import { type_headers, Credentials, UserRegistration } from "../types/api.types";
+import { type_headers, Credentials, UserRegistration, UserPasswordUpdate } from "../types/api.types";
 
 const instance = axios.create({
     baseURL: import.meta.env.VITE_BACKEND_URL
@@ -53,5 +53,10 @@ export default {
     // get User's information
     async getUserInformation(token: string){
         return await this.call("get", "/auth/user", null, token);
+    },
+
+    // let user update it's password
+    async updatePassword(data: UserPasswordUpdate, token:string){
+        return await this.call("put", "/auth/update-password", data, token);
     }
 }
