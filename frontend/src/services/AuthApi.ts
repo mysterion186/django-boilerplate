@@ -58,5 +58,15 @@ export default {
     // let user update it's password
     async updatePassword(data: UserPasswordUpdate, token:string){
         return await this.call("put", "/auth/update-password", data, token);
+    },
+
+    // send a reset password link to the provided email
+    async sendResetPasswordLink(data: {email:string}){
+        return await this.call("post", "/auth/password-reset-link", data);
+    },
+
+    // form for actually resetting the password
+    async sendPassword(data: {password:string, password1:string, token:string, uidb64: string}){
+        return await this.call("post", "/auth/reset-password", data);
     }
 }
