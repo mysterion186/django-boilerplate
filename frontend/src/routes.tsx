@@ -4,6 +4,8 @@ import Login from "./components/authentication/Login.tsx";
 import Registration from "./components/authentication/Registration.tsx";
 import User from "./components/authentication/User.tsx";
 import UpdatePassword from "./components/authentication/UpdatePassword.tsx";
+import PasswordResetLink from "./components/authentication/PasswordResetLink.tsx";
+import PasswordReset from "./components/authentication/PasswordReset.tsx";
 
 const router = createBrowserRouter([
     {
@@ -25,6 +27,14 @@ const router = createBrowserRouter([
     {
         path: "update-password",
         element: <UpdatePassword />
+    },
+    {
+        path: "password-reset-link",
+        element: <PasswordResetLink />
+    },
+    {
+        path: "password/reset/:uidb64/:token",
+        element: <PasswordReset />
     }
 ])
 
