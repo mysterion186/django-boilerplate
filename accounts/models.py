@@ -75,3 +75,15 @@ class MyUser(AbstractBaseUser):
         "Is the user a member of staff?"
         # Simplest possible answer: All admins are staff
         return self.is_admin
+
+    @property
+    def is_complete(self):
+        """Returns a boolean according to the fact that a user is complete.
+        
+        Should write a condition to check that all the required field for using the app are set.
+        """
+        # check that biography is not None
+        complete = True # assume that the user is always complete
+        if self.biography is None:
+            complete = False
+        return complete
