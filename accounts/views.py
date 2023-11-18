@@ -1,6 +1,8 @@
 """Views relatated to user's authentication 
 either the default user of the 3rd party authenticated user.
 """
+from django.conf import settings
+from django.core.mail import EmailMessage
 from django.utils.http import urlsafe_base64_decode,urlsafe_base64_encode
 from rest_framework_simplejwt.tokens import AccessToken
 from rest_framework import status
@@ -105,6 +107,12 @@ class SendResetOneTimeLinkView(APIView):
             user = models.MyUser.objects.get(email=request.data["email"])
             token = password_reset_token.make_token(user)
             uidb64 = urlsafe_base64_encode(str(user.email).encode('utf-8'))
+            EmailMessage(
+                subject="Password reset link",
+                from_email=settings.EMAIL_HOST_USER,
+                to=(user.email,),
+                body=f"click on the following link : localhost:3000/{uidb64}/{token}"
+            ).send()
             return Response(
                 {
                     "status":"success",
