@@ -17,6 +17,7 @@ from social_django.utils import psa
 
 from . import serializers, models
 from .token import password_reset_token
+from .permissions import CustomIsAuthenticated
 
 @api_view(['POST'])
 @permission_classes([AllowAny])
@@ -64,7 +65,7 @@ class DisplayUserInformationView(RetrieveAPIView):
     (for test purposes only)
     """
     serializer_class = serializers.UserSerializer
-    permission_classes = [IsAuthenticated]
+    permission_classes = [CustomIsAuthenticated]
 
     def get_object(self):
         return self.request.user
