@@ -1,17 +1,15 @@
 """Test related to the user's passwords."""
 import json
 
-from django.contrib.auth import authenticate
 from django.test import TestCase
 from django.urls import reverse
-from django.utils.http import urlsafe_base64_decode,urlsafe_base64_encode
+from django.utils.http import urlsafe_base64_encode
 from rest_framework.test import APIClient
 from rest_framework_simplejwt.tokens import AccessToken
 
-
 from .. import models
-from .. import serializers
 from ..token import password_reset_token
+
 class TestPasswords(TestCase):
     """Test related to user's passwords, reset/update."""
 
