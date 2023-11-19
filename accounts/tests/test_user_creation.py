@@ -28,7 +28,7 @@ class CreateAccount(TestCase):
             "password1": "azerty123azerty123",
             "biography": "My name is Al"
         }
-        models.MyUser.objects.create(
+        models.MyUser.objects.create_user(
             email=self.created_user["email"],
             password=self.created_user["password"],
             biography=self.created_user["biography"]
