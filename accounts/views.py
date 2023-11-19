@@ -3,8 +3,10 @@ either the default user of the 3rd party authenticated user.
 """
 from django.conf import settings
 from django.core.mail import EmailMessage
+from django.utils import timezone
 from django.utils.http import urlsafe_base64_decode,urlsafe_base64_encode
 from rest_framework_simplejwt.tokens import AccessToken
+from rest_framework_simplejwt.views import TokenObtainPairView
 from rest_framework import status
 from rest_framework.decorators import api_view, permission_classes
 from rest_framework.permissions import AllowAny, IsAuthenticated
@@ -49,6 +51,21 @@ def register_by_access_token(request, backend):
         status=status.HTTP_400_BAD_REQUEST,
     )
 
+class CustomTokenObtainPairView(TokenObtainPairView):
+    """This is a simple override of the TokenObtainPairView.
+    
+    For making sure that the one time link can be used only once I add the last login time
+    to the user object. But simplejwt don't add the last login time. This class will handle it.
+    """
+    def post(self, request, *args, **kwargs):
+        """Generate the token and then update last login time for the user."""
+        response = super().post(request, *args, **kwargs)
+
+        if response.status_code == 200:
+            user = models.MyUser.objects.get(email=request.data["email"])
+            user.last_login = timezone.now()
+            user.save()
+        return response
 
 @api_view(['GET', 'POST'])
 def authentication_test(request):
