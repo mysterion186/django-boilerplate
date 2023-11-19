@@ -87,9 +87,18 @@ function Login() {
                 <button type="submit">Login</button>
             </form>
             <GoogleButton onClick={LoginFromGoogle}/>
+            <br />
             <FacebookLogin
                 appId="343647381612566"
                 fields="email"
+                style={{
+                    backgroundColor: '#4267b2',
+                    color: '#fff',
+                    fontSize: '16px',
+                    padding: '12px 24px',
+                    border: 'none',
+                    borderRadius: '8px',
+                  }}
                 onSuccess={(response) => {
                     console.log('Login Success!', response);
                 }}
