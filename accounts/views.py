@@ -195,3 +195,18 @@ class ResetPasswordView(APIView):
             return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
         # case the token is not recognized
         return Response({"error": "The link is not recognized"}, status=status.HTTP_400_BAD_REQUEST)
+
+class OptionalUserAttributView(UpdateAPIView):
+    """View for updating/setting the optional values of a user."""
+    permission_classes = [IsAuthenticated]
+    serializer_class = serializers.OptionalUserAttributSerializer
+
+    def get_object(self):
+        return self.request.user
+
+    def update(self, request, *args, **kwargs):
+        serializer = self.get_serializer(instance=request.user, data=request.data)
+        if serializer.is_valid():
+            self.perform_update(serializer)
+            return Response({"status": "success"}, status=status.HTTP_200_OK)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)

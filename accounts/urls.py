@@ -18,6 +18,7 @@ urlpatterns = [
     # all users related endpoint
     path('token', view=views.CustomTokenObtainPairView.as_view(), name="token_obtain_pair"),
     path('token/refresh', TokenRefreshView.as_view(), name='token_refresh'),
+    path('set-optional', view=views.OptionalUserAttributView.as_view(), name="set_optinal_field"),
 
     # basic user related endpoint
     path('create-user', view=views.CreateBasicUserView.as_view(), name='create_basic_user'),
