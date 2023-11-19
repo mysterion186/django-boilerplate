@@ -6,6 +6,8 @@ import AuthApi from "../../services/AuthApi";
 import AuthStorage from "../../services/AuthStorage";
 import { BasicCredentials, ProviderCredentials, RawProviderCredential } from "../../types/api.types";
 import { GoogleButton } from "./SocialButton";
+import FacebookLogin from '@greatsumini/react-facebook-login';
+
 
 function Login() {
     const [formData, setFormData] = useState<BasicCredentials>({
@@ -85,6 +87,19 @@ function Login() {
                 <button type="submit">Login</button>
             </form>
             <GoogleButton onClick={LoginFromGoogle}/>
+            <FacebookLogin
+                appId="343647381612566"
+                fields="email"
+                onSuccess={(response) => {
+                    console.log('Login Success!', response);
+                }}
+                onFail={(error) => {
+                    console.log('Login Failed!', error);
+                }}
+                onProfileSuccess={(response) => {
+                    console.log('Get Profile Success!', response);
+                }}
+            />
         </>
     )
 }
