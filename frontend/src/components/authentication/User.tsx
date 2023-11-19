@@ -5,6 +5,7 @@ import { useState, useEffect } from "react";
 import AuthApi from "../../services/AuthApi";
 import AuthStorage from "../../services/AuthStorage";
 import { UserInformation } from "../../types/api.types";
+import { useRequireAuth } from "../../hooks/authentication";
 
 function User() {
     const [user, setUser] = useState<UserInformation>(
@@ -13,7 +14,7 @@ function User() {
             biography: ""
         }
     );
-    
+    useRequireAuth();
     useEffect(() => {
         const fetchData = async () => {
             const token: string = AuthStorage.getJWTToken() as string;
