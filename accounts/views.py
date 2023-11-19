@@ -115,9 +115,7 @@ class SendResetOneTimeLinkView(APIView):
             ).send()
             return Response(
                 {
-                    "status":"success",
-                    "token": token,
-                    "uidb64": uidb64
+                    "status":"success"
                 },
                 status=status.HTTP_201_CREATED
             )
