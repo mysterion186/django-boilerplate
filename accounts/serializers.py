@@ -115,3 +115,27 @@ class ResetBasicUserPasswordSerializer(serializers.ModelSerializer):
         instance.set_password(validated_data["password"])
         instance.save()
         return {'success': 'password changed'}
+
+class OptionalUserAttributSerializer(serializers.ModelSerializer):
+    """Serializer for setting/updating values on a user that are optional.
+    Which means almost all values added to the user model.
+    """
+    class Meta:
+        """Default meta class."""
+        model = models.MyUser
+        fields = ["biography"]
+
+    def validate(self, attrs):
+        if "biography" not in attrs:
+            raise serializers.ValidationError(
+                {"error": "biography field is required !"}
+            )
+        return attrs
+
+    def validate_biography(self, value):
+        """Method for validating attributs."""
+        if value == "" or value is None:
+            raise serializers.ValidationError(
+                {"error": "biography can't be empty"}
+            )
+        return value
