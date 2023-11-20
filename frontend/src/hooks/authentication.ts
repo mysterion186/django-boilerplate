@@ -47,17 +47,3 @@ export function useRequireAuth(){
         }
     }, [navigate]);
 }
-
-export function useRedirectAfterLogin(){
-    const navigate = useNavigate();
-    useEffect(() => {
-        navigate("/user");
-    }, [navigate])
-}
-
-export function useRedirectAfter403(){
-    const navigate = useNavigate();
-    useEffect(() => {
-        navigate("/");
-    }, [navigate])
-}
