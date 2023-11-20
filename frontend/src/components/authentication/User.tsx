@@ -5,7 +5,8 @@ import { useState, useEffect } from "react";
 import AuthApi from "../../services/AuthApi";
 import AuthStorage from "../../services/AuthStorage";
 import { UserInformation } from "../../types/api.types";
-import { useRequireAuth, useRedirectAfter403 } from "../../hooks/authentication";
+import { useRequireAuth } from "../../hooks/authentication";
+import { useNavigate } from "react-router-dom";
 
 function User() {
     const [user, setUser] = useState<UserInformation>(
@@ -14,9 +15,9 @@ function User() {
             biography: ""
         }
     );
-    useRequireAuth();
-    const redirect403 = useRedirectAfter403();
+    const navigate = useNavigate();
 
+    useRequireAuth();
     useEffect(() => {
         const fetchData = async () => {
             const token: string = AuthStorage.getJWTToken() as string;
@@ -26,7 +27,7 @@ function User() {
                 setUser(response.data);
             }
             else if (response.status === 403){
-                redirect403;
+                navigate("/optional-field");
             }
         }
         fetchData();
