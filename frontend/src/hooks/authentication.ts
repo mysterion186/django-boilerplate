@@ -45,5 +45,19 @@ export function useRequireAuth(){
         if(!isAuthenticated){
             navigate("/login");
         }
-    }, []);
+    }, [navigate]);
+}
+
+export function useRedirectAfterLogin(){
+    const navigate = useNavigate();
+    useEffect(() => {
+        navigate("/user");
+    }, [navigate])
+}
+
+export function useRedirectAfter403(){
+    const navigate = useNavigate();
+    useEffect(() => {
+        navigate("/");
+    }, [navigate])
 }
