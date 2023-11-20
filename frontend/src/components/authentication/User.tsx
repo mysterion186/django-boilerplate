@@ -5,7 +5,7 @@ import { useState, useEffect } from "react";
 import AuthApi from "../../services/AuthApi";
 import AuthStorage from "../../services/AuthStorage";
 import { UserInformation } from "../../types/api.types";
-import { useRequireAuth } from "../../hooks/authentication";
+import { useRequireAuth, useRedirectAfter403 } from "../../hooks/authentication";
 
 function User() {
     const [user, setUser] = useState<UserInformation>(
@@ -15,6 +15,8 @@ function User() {
         }
     );
     useRequireAuth();
+    const redirect403 = useRedirectAfter403();
+
     useEffect(() => {
         const fetchData = async () => {
             const token: string = AuthStorage.getJWTToken() as string;
@@ -22,6 +24,9 @@ function User() {
 
             if (response.status === 200){
                 setUser(response.data);
+            }
+            else if (response.status === 403){
+                redirect403;
             }
         }
         fetchData();
