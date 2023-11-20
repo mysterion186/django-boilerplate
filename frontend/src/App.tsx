@@ -10,6 +10,7 @@ function App() {
         <p><Link to={"/user"}>user</Link></p>
         <p><Link to={"/update-password"}>update-password</Link></p>
         <p><Link to={"/password-reset-link"}>password-reset-link</Link></p>
+        <p><Link to={"/optional-field"}>Set optional parameter</Link></p>
         <p>Click on the given link for actually change your password</p>
       </div>
   );
