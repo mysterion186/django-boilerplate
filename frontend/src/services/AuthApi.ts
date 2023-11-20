@@ -4,7 +4,7 @@
  * This may includes some useful methods like getting the JWT Token or creating/loging the user...
  */
 import axios from "axios";
-import { type_headers, Credentials, UserRegistration, UserPasswordUpdate } from "../types/api.types";
+import { type_headers, Credentials, UserRegistration, UserPasswordUpdate, OptionalUserInformation } from "../types/api.types";
 
 const instance = axios.create({
     baseURL: import.meta.env.VITE_BACKEND_URL
@@ -68,5 +68,10 @@ export default {
     // form for actually resetting the password
     async sendPassword(data: {password:string, password1:string, token:string, uidb64: string}){
         return await this.call("post", "/auth/reset-password", data);
+    },
+
+    // send all the optional field of the user (either the first time or for updating)
+    async sendOptional(data: OptionalUserInformation, token:string){
+        return await this.call("put", "/auth/set-optional", data, token);
     }
 }
