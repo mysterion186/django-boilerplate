@@ -29,7 +29,11 @@ export type UserPasswordUpdate = {
     password1: string
 }
 
-export type UserInformation = {
+export interface OptionalUserInformation {
+    biography: string
+}
+
+export interface UserInformation {
     email: string,
     biography: string | null
 }
