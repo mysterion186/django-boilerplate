@@ -23,6 +23,9 @@ export interface RawProviderCredential {
     access_token: string;
 }
 
+export interface RawProviderCredentialCamelCase {
+    accessToken: string;
+}
 export type UserPasswordUpdate = {
     old_password: string,
     password: string, 
