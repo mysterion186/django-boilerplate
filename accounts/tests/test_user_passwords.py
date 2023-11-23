@@ -73,6 +73,8 @@ class TestPasswords(TestCase):
         user = models.MyUser.objects.get(email=self.user_ed.email)
 
         self.assertFalse(user.check_password(data["password"])) # check that password is not updated
+        # old password is still correct ?
+        self.assertTrue(user.check_password(self.information["password"]))
         self.assertTrue(response.data.get("old_password") is not None)
         self.assertEqual(response.data["old_password"]["error"], "Old password is not correct")
         self.assertEqual(response.status_code, 400)
@@ -96,6 +98,7 @@ class TestPasswords(TestCase):
         user = models.MyUser.objects.get(email=self.user_ed.email)
 
         self.assertFalse(user.check_password(data["password"])) # check that password is not updated
+        self.assertTrue(user.check_password(data["old_password"])) # old password is still correct ?
         self.assertTrue(response.data.get("error") is not None)
         self.assertEqual(response.data["error"][0], "passwords must match !")
         self.assertEqual(response.status_code, 400)
@@ -117,6 +120,8 @@ class TestPasswords(TestCase):
         user = models.MyUser.objects.get(email=self.user_ed.email)
 
         self.assertFalse(user.check_password(data["password"])) # check that password is not updated
+        # old password is still correct ?
+        self.assertTrue(user.check_password(self.information["password"]))
         self.assertTrue(response.data.get("old_password") is not None)
         self.assertEqual(response.data["old_password"][0], "This field is required.")
         self.assertEqual(response.status_code, 400)
@@ -138,6 +143,7 @@ class TestPasswords(TestCase):
         user = models.MyUser.objects.get(email=self.user_ed.email)
 
         self.assertFalse(user.check_password(data["password"])) # check that password is not updated
+        self.assertTrue(user.check_password(data["old_password"])) # old password is still correct ?
         self.assertTrue(response.data.get("password1") is not None)
         self.assertEqual(response.data["password1"][0], "This field is required.")
         self.assertEqual(response.status_code, 400)
@@ -159,6 +165,7 @@ class TestPasswords(TestCase):
         user = models.MyUser.objects.get(email=self.user_ed.email)
 
         self.assertFalse(user.check_password(data["password"])) # check that password is not updated
+        self.assertTrue(user.check_password(data["old_password"])) # old password is still correct ?
         self.assertTrue(response.data.get("password1") is not None)
         self.assertEqual(response.data["password1"][0], "This field is required.")
         self.assertEqual(response.status_code, 400)
@@ -235,7 +242,9 @@ class TestPasswords(TestCase):
 
         user = models.MyUser.objects.get(email=self.user_ed.email)
 
-        self.assertFalse(user.check_password(data["password"])) # check that password is updated
+        self.assertFalse(user.check_password(data["password"])) # check that password is not updated
+        # old password is still correct ?
+        self.assertTrue(user.check_password(self.information["password"])) 
         self.assertEqual(response.status_code, 400)
         self.assertEqual(response.data["password"][0], "password must match !")
 
@@ -279,6 +288,8 @@ class TestPasswords(TestCase):
 
         # check that password is not updated
         self.assertFalse(user.check_password(data_after_reset["password"]))
+        # old password is still correct ?
+        self.assertTrue(user.check_password(data["password"]))
         self.assertEqual(response_after_reset.status_code, 400)
         self.assertEqual(response_after_reset.data, {"error": "The link is not recognized"})
 
@@ -317,6 +328,8 @@ class TestPasswords(TestCase):
 
         # check that password is not updated
         self.assertFalse(user.check_password(data["password"]))
+        # old password is still correct ?
+        self.assertTrue(user.check_password(self.information["password"])) 
         self.assertEqual(response.status_code, 400)
         self.assertEqual(response.data, {"error": "The link is not recognized"})
 
@@ -339,7 +352,9 @@ class TestPasswords(TestCase):
 
         user = models.MyUser.objects.get(email=self.user_ed.email)
 
-        self.assertFalse(user.check_password(data["password"])) # check that password is updated
+        self.assertFalse(user.check_password(data["password"])) # check that password is not updated
+        # old password is still correct ?
+        self.assertTrue(user.check_password(self.information["password"]))
         self.assertEqual(response.status_code, 404)
         self.assertEqual(response.data, {"error": "The user is not recognized"})
 
@@ -362,6 +377,8 @@ class TestPasswords(TestCase):
 
         user = models.MyUser.objects.get(email=self.user_ed.email)
 
-        self.assertFalse(user.check_password(data["password"])) # check that password is updated
+        self.assertFalse(user.check_password(data["password"])) # check that password is not updated
+        # old password is still correct ?
+        self.assertTrue(user.check_password(self.information["password"]))
         self.assertEqual(response.status_code, 400)
         self.assertEqual(response.data, {"error": "The link is not recognized"})
