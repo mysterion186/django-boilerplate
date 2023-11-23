@@ -4,7 +4,7 @@ import { useNavigate } from "react-router-dom";
 
 import AuthApi from "../../services/AuthApi";
 import AuthStorage from "../../services/AuthStorage";
-import { BasicCredentials, ProviderCredentials, RawProviderCredential } from "../../types/api.types";
+import { BasicCredentials, ProviderCredentials, RawProviderCredential, RawProviderCredentialCamelCase } from "../../types/api.types";
 import { GoogleButton } from "./SocialButton";
 import FacebookLogin from '@greatsumini/react-facebook-login';
 
@@ -99,14 +99,22 @@ function Login() {
                     border: 'none',
                     borderRadius: '8px',
                   }}
-                onSuccess={(response) => {
-                    console.log('Login Success!', response);
+                onSuccess={async (response: RawProviderCredentialCamelCase) => {
+                    const formattedCredentials: ProviderCredentials = {
+                        access_token: response.accessToken,
+                        provider: "facebook"
+                    };
+                    const res = await AuthApi.getJWTToken(formattedCredentials);
+                    if (res.status === 200){
+                        AuthStorage.saveJWTToken(res.data.access);
+                        navigate("/user");
+                    }
+                    else{
+                        console.log("An error occured ", res);
+                    }
                 }}
                 onFail={(error) => {
                     console.log('Login Failed!', error);
-                }}
-                onProfileSuccess={(response) => {
-                    console.log('Get Profile Success!', response);
                 }}
             />
         </>
