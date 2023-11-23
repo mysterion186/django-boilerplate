@@ -3,6 +3,7 @@ import { useNavigate } from "react-router-dom";
 
 import AuthApi from "../../services/AuthApi";
 import { UserRegistration } from "../../types/api.types";
+import AuthStorage from "../../services/AuthStorage";
 
 function Registration() {
     const [formData, setFormData] = useState<UserRegistration>({
@@ -17,7 +18,17 @@ function Registration() {
         e.preventDefault();
         const res = await AuthApi.registerBasicUser(formData);
         if (res.status === 201){
-            navigate("/user");
+            const response = await AuthApi.getJWTToken({
+                "email": formData.email,
+                "password": formData.password
+            });
+            if (response.status === 200){
+                AuthStorage.saveJWTToken(response.data.access);
+                navigate("/user");
+            }
+            else{
+                console.log("Something went wrong");
+            }
         }
         else{
             console.log("An error occured ", res);
