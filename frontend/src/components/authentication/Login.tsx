@@ -89,7 +89,7 @@ function Login() {
             <GoogleButton onClick={LoginFromGoogle}/>
             <br />
             <FacebookLogin
-                appId="343647381612566"
+                appId={import.meta.env.VITE_FACEBOOK_APP_ID}
                 fields="email"
                 style={{
                     backgroundColor: '#4267b2',
