@@ -14,6 +14,12 @@ Install node modules:
 
 ### Docker
 You can now use Docker to run this project. 
+The command to use is the following:   
+```docker-compose up --build```.  
+The first time running the project, you'll have to make migrations with the following commands:  
+```docker-compose exec api sh```  
+Then:  
+```python3 manage.py makemigrations && python3 manage.py migrate```
 
 ## Philosophy behind the project
 Whenever I want to create a project, I always do the same boring part, the authentication related code.
