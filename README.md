@@ -4,12 +4,16 @@ Usually when working on a custom project we often have all the time the same bor
 This project is a boilerplate for any Django (Django Rest Framework) project with 3rd party authentication.  
 
 ## Installation
+### Basic installation
 For installing this project you can run the following command:
 
 Install python module:
 ```pip3 install -r requirements.txt``` (run this command in a virtual env if you have one)  
 Install node modules:
 ```cd frontend && npm install```
+
+### Docker
+You can now use Docker to run this project. 
 
 ## Philosophy behind the project
 Whenever I want to create a project, I always do the same boring part, the authentication related code.
@@ -37,17 +41,16 @@ There are some of the current features:
     - login ([localhost:3000/login](http://localhost:3000/login))
     - update password ([localhost:3000/update-password](http://localhost:3000/update-password))
     - generate a one time link for resetting password ([localhost:3000/password-reset-link](http://localhost:3000/password-reset-link))
-    - reset password (click the link on the email)
-
+    - reset password (click the link on the email)  
 - Social User
     - Google
     - Facebook
 - Custom permission (*CustomIsAuthenticated*)
-- Unit testing
+- Unit testing  
+- Docker  
+- PostgreSQL  
 
   Next features to add:     
-  -  PostgreSQL
-  -  Docker
   -  Strip integretion
   -  Celery for queing
   -  Safer way to store JWT Token on the frontend (currently in the local storage)
