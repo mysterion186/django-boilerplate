@@ -19,8 +19,6 @@ services:
       - ./backend:/src
     depends_on:
       - db
-    networks:
-      - projectNetwork
   
   frontend:
     build:
@@ -30,9 +28,4 @@ services:
       - "3000:3000"
     depends_on:
       - api
-    networks:
-      - projectNetwork
 
-networks:
-  projectNetwork:
-    driver: bridge
