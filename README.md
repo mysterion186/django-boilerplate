@@ -21,6 +21,10 @@ The first time running the project, you'll have to make migrations with the foll
 Then:  
 ```python3 manage.py makemigrations && python3 manage.py migrate```
 
+### Test
+To run test related to the *backend*:  
+`docker-compose exec api python3 manage.py test`
+
 ## Philosophy behind the project
 Whenever I want to create a project, I always do the same boring part, the authentication related code.
 Create the user, generate the basic authentication endpoints...  
@@ -66,9 +70,8 @@ There are some of the current features:
 
 To run the project as is, follow these steps: 
 -  rename the `.env.sample` into a `.env` file (with the correct values for your project).
--  run the following commands
-    -  ```python3 manage.py runserver```
-    -  ```npm run dev```
+-  run the following command:
+    -  `docker-compose up --build`
 
 To use it as your own, please don't forget to delete (at least) the `.git` folder and the `README.md`.   
 You can also remove the front folder. As I said, it's only here to show you how every parts work together. What I believe really important in this project are the Login component and the Services folder (contains methods related to the API).
