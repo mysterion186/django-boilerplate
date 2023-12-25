@@ -12,6 +12,8 @@
   "dependencies": {
     "@greatsumini/react-facebook-login": "^3.3.3",
     "@react-oauth/google": "^0.11.1",
+    "@stripe/react-stripe-js": "^2.4.0",
+    "@stripe/stripe-js": "^2.2.2",
     "axios": "^1.6.0",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",

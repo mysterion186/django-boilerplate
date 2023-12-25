@@ -7,6 +7,9 @@ import UpdatePassword from "./components/authentication/UpdatePassword.tsx";
 import PasswordResetLink from "./components/authentication/PasswordResetLink.tsx";
 import PasswordReset from "./components/authentication/PasswordReset.tsx";
 import UserOptionalField from "./components/authentication/UserOptionalField.tsx";
+import Subscription from "./components/payments/Subscription.tsx";
+import Cancel from "./components/payments/Cancel.tsx";
+import Success from "./components/payments/Success.tsx";
 
 const router = createBrowserRouter([
     {
@@ -40,6 +43,18 @@ const router = createBrowserRouter([
     {
         path: "optional-field",
         element: <UserOptionalField />
+    },
+    {
+        path: "payment",
+        element: <Subscription />
+    },
+    {
+        path: "payment/cancel",
+        element: <Cancel />
+    },
+    {
+        path: "payment/success",
+        element: <Success />
     }
 ])
 
