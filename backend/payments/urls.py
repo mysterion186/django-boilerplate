@@ -10,5 +10,5 @@ urlpatterns = [
         view=views.CreateSubscription.as_view(),
         name="create_subscription"
     ),
-    path('webhook', view=views.Webhook.as_view(), name="webhook"),
+    path('webhook/', view=views.Webhook.as_view(), name="webhook"),
 ]
