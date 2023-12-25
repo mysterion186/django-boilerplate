@@ -11,7 +11,10 @@ function Subscription() {
         const res = await PaymentApi.createSubscription({
             "price_id": "price_1OQxwTJxBksF9wytzb7lk3Gq"
         });
-        console.log("result", res);
+        if (res.status === 303){
+            const url: string = res.data["url"];
+            window.location.href = url;
+        }
     }
     return(
         <>
