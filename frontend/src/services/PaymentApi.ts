@@ -28,7 +28,7 @@ export default {
     },
 
     // create subscription
-    async createSubscription(subscriptionData: object){
-        return await this.call("post", "/payments/create-subscription", subscriptionData);
+    async createSubscription(subscriptionData: object, token: string){
+        return await this.call("post", "/payments/create-subscription", subscriptionData, token);
     }
 }
