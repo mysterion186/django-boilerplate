@@ -46,6 +46,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'accounts',
+    'payments',
     'rest_framework',
     'social_django',
     'rest_framework_simplejwt',
@@ -177,3 +178,6 @@ EMAIL_PORT = 465
 EMAIL_USE_SSL = True
 EMAIL_HOST_USER = os.environ.get("EMAIL_HOST_USER", "example@gmail.com")
 EMAIL_HOST_PASSWORD = os.environ.get("EMAIL_HOST_PASSWORD", "yourpasswordhere")
+
+STRIPE_SECRET_KEY = os.environ.get("STRIPE_SECRET_KEY", "your_stripe_secret_key")
+STRIPE_WEBHOOK_SECRET = os.environ.get("STRIPE_WEBHOOK_SECRET", "your_endpoind_secret")
