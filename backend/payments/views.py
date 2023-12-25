@@ -6,17 +6,19 @@ from rest_framework.views import APIView
 from rest_framework.permissions import AllowAny
 import stripe
 
+from payments.models import Invoice
+from accounts.models import MyUser
 stripe.api_key = settings.STRIPE_SECRET_KEY
 
 class CreateSubscription(APIView):
     """Handle subscription creation."""
-    permission_classes = [AllowAny]
 
     def post(self, request):
         """Handle post request."""
         data = request.data
         try:
             checkout_session = stripe.checkout.Session.create(
+                client_reference_id=request.user.id,
                 line_items=[{
                     'price': data["price_id"],
                     'quantity': data.get("quantity", 1)
@@ -51,6 +53,18 @@ class Webhook(APIView):
 
         if event['type'] == 'checkout.session.completed':
             session = event['data']["object"]
-            print(event, session)
+            user_id = session.get("client_reference_id")
+            stripe_id = session.get("id")
+            stripe_customer_id = session.get("customer")
+            stripe_invoice = session.get("invoice")
+
+            user = MyUser.objects.get(pk=user_id)
+            invoice = Invoice(
+                user=user,
+                stripe_customer_id=stripe_customer_id,
+                stripe_invoice=stripe_invoice,
+                stripe_id=stripe_id
+            )
+            invoice.save()
             return Response(status=status.HTTP_200_OK)
         return Response(status=status.HTTP_400_BAD_REQUEST)
