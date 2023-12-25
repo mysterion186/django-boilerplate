@@ -31,32 +31,26 @@ class CreateSubscription(APIView):
 
 class Webhook(APIView):
     """Webhook for handling stripes responses."""
+    permission_classes = [AllowAny]
+
     def post(self, request):
         """Handle post request."""
-        if settings.STRIPE_WEBHOOK_SECRET:
-            signature = request.META["HTTP_STRIPE_SIGNATURE"]
-            try:
-                event = stripe.Webhook.construct_event(
-                    payload=request.body,
-                    sig_header=signature,
-                    secret=settings.STRIPE_WEBHOOK_SECRET
-                )
-                data = event["data"]
-            except ValueError as exc:
-                raise exc
-            except stripe.SignatureVerificationError as exc:
-                raise exc
-            event_type = event["type"]
-        else:
-            data = request.data["data"]
-            event_type = request.data["type"]
+        payload = request.body
+        sig_header = request.META["HTTP_STRIPE_SIGNATURE"]
+        event = None
 
-        match event_type:
-            case 'invoice.paid':
-                print("invoice paid")
-            case 'invoice.payment_failed':
-                print("invoice failed")
-            case 'checkout.session.completed':
-                print(f"session completed for {data['object']['customer']}")
-            case _:
-                print(f"unknown event type {event_type}")
+        try:
+            event = stripe.Webhook.construct_event(
+                payload, sig_header, settings.STRIPE_WEBHOOK_SECRET
+            )
+        except ValueError:
+            print("value error")
+            return Response({"error": "something went wrong"}, status=status.HTTP_400_BAD_REQUEST)
+        except stripe.SignatureVerificationError as exc:
+            raise exc
+
+        if event['type'] == 'checkout.session.completed':
+            session = event['data']["object"]
+            print(event, session)
+            return Response(status=status.HTTP_200_OK)
+        return Response(status=status.HTTP_400_BAD_REQUEST)
