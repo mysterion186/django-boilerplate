@@ -3,12 +3,15 @@ from django.conf import settings
 from rest_framework import status
 from rest_framework.response import Response
 from rest_framework.views import APIView
+from rest_framework.permissions import AllowAny
 import stripe
 
 stripe.api_key = settings.STRIPE_SECRET_KEY
 
 class CreateSubscription(APIView):
     """Handle subscription creation."""
+    permission_classes = [AllowAny]
+
     def post(self, request):
         """Handle post request."""
         data = request.data
@@ -16,11 +19,11 @@ class CreateSubscription(APIView):
             checkout_session = stripe.checkout.Session.create(
                 line_items=[{
                     'price': data["price_id"],
-                    'quantity': data["quantity"]
+                    'quantity': data.get("quantity", 1)
                 }],
                 mode='subscription',
-                success_url="",
-                cancel_url=""
+                success_url="http://localhost:3000/payment/success",
+                cancel_url="http://localhost:3000/payment/cancel"
             )
             return Response({"url":checkout_session.url}, status=status.HTTP_303_SEE_OTHER)
         except Exception as exc:
