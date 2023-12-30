@@ -4,7 +4,7 @@ from django.db import models
 from accounts.models import MyUser
 class Invoice(models.Model):
     """Model for handling invoices."""
-    user = models.OneToOneField(MyUser, on_delete=models.CASCADE)
+    user = models.ForeignKey(MyUser, on_delete=models.CASCADE)
     stripe_customer_id = models.CharField(max_length=255)
     stripe_id = models.CharField(max_length=255)
     stripe_invoice = models.CharField(max_length=255)
