@@ -1,4 +1,5 @@
 """Views for payment application."""
+from typing import Optional, Dict
 from django.conf import settings
 from rest_framework import status
 from rest_framework.response import Response
@@ -16,16 +17,23 @@ class CreateSubscription(APIView):
     def post(self, request):
         """Handle post request."""
         data = request.data
+        stripe_customer_id: Optional[str] = request.user.stripe_customer_id
         try:
-            checkout_session = stripe.checkout.Session.create(
-                client_reference_id=request.user.id,
-                line_items=[{
+            sessions_params: Dict = {
+                "client_reference_id": request.user.id,
+                "line_items": [{
                     'price': data["price_id"],
                     'quantity': data.get("quantity", 1)
                 }],
-                mode='subscription',
-                success_url="http://localhost:3000/payment/success",
-                cancel_url="http://localhost:3000/payment/cancel"
+                "mode": 'subscription',
+                "success_url": "http://localhost:3000/payment/success",
+                "cancel_url": "http://localhost:3000/payment/cancel"
+            }
+            if stripe_customer_id:
+                sessions_params["customer"] = stripe_customer_id
+            print(sessions_params)
+            checkout_session = stripe.checkout.Session.create(
+                **sessions_params
             )
             return Response({"url":checkout_session.url}, status=status.HTTP_303_SEE_OTHER)
         except Exception as exc:
@@ -57,11 +65,14 @@ class Webhook(APIView):
             stripe_id = session.get("id")
             stripe_customer_id = session.get("customer")
             stripe_invoice = session.get("invoice")
+            print(session)
 
             user = MyUser.objects.get(pk=user_id)
+            user.stripe_customer_id = stripe_customer_id
+            user.save()
+
             invoice = Invoice(
                 user=user,
-                stripe_customer_id=stripe_customer_id,
                 stripe_invoice=stripe_invoice,
                 stripe_id=stripe_id
             )
