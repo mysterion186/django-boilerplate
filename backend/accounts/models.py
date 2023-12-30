@@ -50,6 +50,7 @@ class MyUser(AbstractBaseUser):
         unique=True,
     )
     biography = models.CharField(max_length=255, null=True, blank=True)
+    stripe_customer_id = models.CharField(max_length=255, null=True, blank=True)
     is_active = models.BooleanField(default=True)
     is_admin = models.BooleanField(default=False)
 
@@ -58,14 +59,14 @@ class MyUser(AbstractBaseUser):
     USERNAME_FIELD = "email"
 
     def __str__(self):
-        return self.email
+        return str(self.email)
 
-    def has_perm(self, perm, obj=None):
+    def has_perm(self, perm, obj=None): # pylint: disable=unused-argument
         "Does the user have a specific permission?"
         # Simplest possible answer: Yes, always
         return True
 
-    def has_module_perms(self, app_label):
+    def has_module_perms(self, app_label): # pylint: disable=unused-argument
         "Does the user have permissions to view the app `app_label`?"
         # Simplest possible answer: Yes, always
         return True
