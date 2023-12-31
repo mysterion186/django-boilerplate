@@ -46,4 +46,5 @@ class Command(BaseCommand):
     help = "Retrive stripe products"
 
     def handle(self, *args: Any, **options: Any) -> None:
-        Product.handle_product()
+        count: int = Product.handle_product()
+        print(f"{count} new product where created")
