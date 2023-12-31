@@ -2,7 +2,7 @@ asgiref==3.7.2
 certifi==2023.7.22
 cffi==1.16.0
 charset-normalizer==3.3.2
-cryptography==41.0.5
+cryptography==41.0.6
 defusedxml==0.8.0rc2
 Django==4.2.7
 django-cors-headers==4.3.0
@@ -22,4 +22,6 @@ six==1.16.0
 social-auth-app-django==5.4.0
 social-auth-core==4.5.0
 sqlparse==0.4.4
+stripe==7.10.0
+typing_extensions==4.9.0
 urllib3==2.0.7
