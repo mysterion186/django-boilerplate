@@ -26,7 +26,7 @@ from .permissions import CustomIsAuthenticated
 @api_view(['POST'])
 @permission_classes([AllowAny])
 @psa()
-def register_by_access_token(request, backend):
+def register_by_access_token(request, backend): # pylint: disable=unused-argument
     """Take the accessToken given by the 3rd party authentication provider
     in order to authenticate the user (create the account if the user does not exist).
     Once the user is authenticated (or created) he will receive a JWT token 
@@ -138,7 +138,7 @@ class SendResetOneTimeLinkView(APIView):
             )
         except KeyError:
             return Response({"error": "`email` is required"}, status=status.HTTP_400_BAD_REQUEST)
-        except models.MyUser.DoesNotExist:
+        except models.MyUser.DoesNotExist: # pylint: disable=no-member
             return Response(
                 {
                     "error": "There is no user with this email"
@@ -167,7 +167,7 @@ class ResetPasswordView(APIView):
         try :
             uid = urlsafe_base64_decode(uidb64).decode('ascii')
             user = models.MyUser.objects.get(email=uid)
-        except (TypeError, ValueError, OverflowError, models.MyUser.DoesNotExist):
+        except (TypeError, ValueError, OverflowError, models.MyUser.DoesNotExist): # pylint: disable=no-member
             user = None
             return Response(
                 {
