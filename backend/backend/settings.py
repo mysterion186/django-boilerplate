@@ -27,7 +27,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = 'django-insecure-_8hy)mder=d9ulhcv*ye!a)2tif453yz#n6u@+$a6(f#x05*1e'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = os.environ.get("DEBUG", "False") == "True"
 
 ALLOWED_HOSTS = []
 
@@ -181,3 +181,76 @@ EMAIL_HOST_PASSWORD = os.environ.get("EMAIL_HOST_PASSWORD", "yourpasswordhere")
 
 STRIPE_SECRET_KEY = os.environ.get("STRIPE_SECRET_KEY", "your_stripe_secret_key")
 STRIPE_WEBHOOK_SECRET = os.environ.get("STRIPE_WEBHOOK_SECRET", "your_endpoind_secret")
+
+handlers = ["file_debug", "file_info","file_warning", "file_error", "file_critical"]
+if DEBUG:
+    handlers.append("console")
+
+LOGGING = {
+    'version': 1,
+    'disable_existing_loggers': False,
+    'formatters': {
+        'verbose': {
+            "format": "{levelname} {asctime} {module} {message}",
+            "style": "{",
+        },
+        'simple': {
+            "format": "{levelname} {message}",
+            "style": "{",
+        }
+    },
+    "handlers": {
+        "console": {
+            "level": "DEBUG",
+            "class": "logging.StreamHandler",
+            "formatter": "simple",
+        },
+        "file_debug": {
+            "level": "DEBUG",
+            "class": "logging.handlers.RotatingFileHandler",
+            'filename': os.environ.get("LOG_FILEPATH", str(BASE_DIR)) + "/var/logs/boilerplate/boilerplate_debug.log",
+            "formatter": "verbose",
+            "maxBytes": 1024 * 1024 * 5,
+            "backupCount": 3,
+        },
+        "file_info": {
+            "level": "INFO",
+            "class": "logging.handlers.RotatingFileHandler",
+            'filename': os.environ.get("LOG_FILEPATH", str(BASE_DIR)) + "/var/logs/boilerplate/boilerplate_info.log",
+            "formatter": "verbose",
+            "maxBytes": 1024 * 1024 * 5,
+            "backupCount": 3,
+        },
+        "file_warning": {
+            "level": "WARNING",
+            "class": "logging.handlers.RotatingFileHandler",
+            'filename': os.environ.get("LOG_FILEPATH", str(BASE_DIR)) + "/var/logs/boilerplate/boilerplate_warning.log",
+            "formatter": "verbose",
+            "maxBytes": 1024 * 1024 * 5,
+            "backupCount": 3,
+        },
+        "file_error": {
+            "level": "ERROR",
+            "class": "logging.handlers.RotatingFileHandler",
+            'filename': os.environ.get("LOG_FILEPATH", str(BASE_DIR)) + "/var/logs/boilerplate/boilerplate_error.log",
+            "formatter": "verbose",
+            "maxBytes": 1024 * 1024 * 5,
+            "backupCount": 3,
+        },
+        "file_critical": {
+            "level": "CRITICAL",
+            "class": "logging.handlers.RotatingFileHandler",
+            'filename': os.environ.get("LOG_FILEPATH", str(BASE_DIR)) + "/var/logs/boilerplate/boilerplate_critical.log",
+            "formatter": "verbose",
+            "maxBytes": 1024 * 1024 * 5,
+            "backupCount": 3,
+        }
+    },
+    "loggers": {
+        "django": {
+            "handlers": handlers,
+            "level": "DEBUG",
+            "propagate": True
+        }
+    }
+}
