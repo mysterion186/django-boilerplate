@@ -1,0 +1,97 @@
+{
+    "api_version": "2023-10-16",
+    "created": 1704058932,
+    "data": {
+      "object": {
+        "after_expiration": null,
+        "allow_promotion_codes": null,
+        "amount_subtotal": 3000,
+        "amount_total": 3000,
+        "automatic_tax": {
+          "enabled": false,
+          "status": null
+        },
+        "billing_address_collection": null,
+        "cancel_url": "http://localhost:3000/payment/cancel",
+        "client_reference_id": "2",
+        "client_secret": null,
+        "consent": null,
+        "consent_collection": null,
+        "created": 1704058925,
+        "currency": "eur",
+        "currency_conversion": null,
+        "custom_fields": [],
+        "custom_text": {
+          "after_submit": null,
+          "shipping_address": null,
+          "submit": null,
+          "terms_of_service_acceptance": null
+        },
+        "customer": "cus_PHi6f1ePOoLF7b",
+        "customer_creation": null,
+        "customer_details": {
+          "address": {
+            "city": null,
+            "country": "FR",
+            "line1": null,
+            "line2": null,
+            "postal_code": null,
+            "state": null
+          },
+          "email": "ed@elric.com",
+          "name": "Edward Elric",
+          "phone": null,
+          "tax_exempt": "none",
+          "tax_ids": []
+        },
+        "customer_email": null,
+        "expires_at": 1704145325,
+        "id": "cs_test_a161IhXV482IeMuDWuTt79pnighwhxEDojHEs14qzX0Zq9ekZ0SNGE0zTQ",
+        "invoice": "in_1OTWlpJxBksF9wytpNQULFtt",
+        "invoice_creation": null,
+        "livemode": false,
+        "locale": null,
+        "metadata": {},
+        "mode": "subscription",
+        "object": "checkout.session",
+        "payment_intent": null,
+        "payment_link": null,
+        "payment_method_collection": "always",
+        "payment_method_configuration_details": null,
+        "payment_method_options": null,
+        "payment_method_types": [
+          "card"
+        ],
+        "payment_status": "paid",
+        "phone_number_collection": {
+          "enabled": false
+        },
+        "recovered_from": null,
+        "setup_intent": null,
+        "shipping_address_collection": null,
+        "shipping_cost": null,
+        "shipping_details": null,
+        "shipping_options": [],
+        "status": "complete",
+        "submit_type": null,
+        "subscription": "sub_1OTWlpJxBksF9wytM3wEYrTh",
+        "success_url": "http://localhost:3000/payment/success",
+        "total_details": {
+          "amount_discount": 0,
+          "amount_shipping": 0,
+          "amount_tax": 0
+        },
+        "ui_mode": "hosted",
+        "url": null
+      }
+    },
+    "id": "evt_1OTWlsJxBksF9wytAPFa2GFM",
+    "livemode": false,
+    "object": "event",
+    "pending_webhooks": 2,
+    "request": {
+      "id": null,
+      "idempotency_key": null
+    },
+    "type": "checkout.session.completed"
+  }
