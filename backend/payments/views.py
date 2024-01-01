@@ -12,7 +12,7 @@ import stripe
 from payments.models import Invoice
 from accounts.models import MyUser
 
-logger = logging.getLogger("django")
+logger = logging.getLogger("project")
 stripe.api_key = settings.STRIPE_SECRET_KEY
 
 class CreateSubscription(APIView):
