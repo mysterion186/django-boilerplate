@@ -4,7 +4,7 @@ In this folder, there are only the mocked tests.
 import json
 from unittest.mock import patch
 
-from django.test import TestCase, override_settings
+from django.test import TestCase
 from django.urls import reverse
 from django.conf import settings
 from rest_framework.test import APIClient
@@ -13,7 +13,6 @@ from rest_framework_simplejwt.tokens import AccessToken
 from accounts import models
 from .. import models
 
-@override_settings(DEBUG=True)
 class TestSubscription(TestCase):
     """Test related to subscription."""
 
