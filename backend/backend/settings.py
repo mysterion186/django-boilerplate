@@ -29,7 +29,7 @@ SECRET_KEY = 'django-insecure-_8hy)mder=d9ulhcv*ye!a)2tif453yz#n6u@+$a6(f#x05*1e
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = os.environ.get("DEBUG", "False") == "True"
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['*']
 
 CORS_ALLOWED_ORIGINS = [
     "http://localhost:3000",  # Add your frontend URL(s) here
